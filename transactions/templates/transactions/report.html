@@ -1,0 +1,114 @@
+{% extends 'base.html' %} {% load static %} {% block head_title %}Adoption Report{% endblock %} {% block content %}
+
+
+<div class="bg-white px-3 py-4 rounded-xl my-6">
+
+    <h3 class="font-bold text-2xl text-center pb-1">Hello: {{ request.user.first_name }} {{ request.user.last_name }}</h3>
+    <h4 class="font-semi_bold text-2xl text-center pb-5 text-gray-800 bg-gray-50 dark:bg-gray-800 dark:text-gray-500">Welcome to Your purchase Report</h4>
+    <div class="flex items-center justify-center mb-10">
+        <button class="bg-blue-700 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Reports Of Pets That You have Adopted</button>
+    </div>
+    <div class="relative overflow-x-auto">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                    <th scope="col" class="px-6 py-3">
+                        ID
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Pet Name
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Pet Price
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Adopt Date and time
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for adopt in adopted_pets %}
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        <th scope="row" class="px-6 py-4 text-xs text-gray-700  bg-gray-50 dark:bg-gray-700 dark:text-gray-400 font-bold">
+                            {{ adopt.id }}
+                        </th>
+                        <td class="px-6 py-4 text-xs text-gray-700  bg-gray-50 dark:bg-gray-700 dark:text-gray-400 font-bold">
+                            {{ adopt.pet.pet_title }}
+                        </td>
+                        <td class="px-6 py-4 text-xs text-gray-700  bg-gray-50 dark:bg-gray-700 dark:text-gray-400 font-bold">
+                            {{ adopt.pet.price }}
+                        </td>
+                        <td class="px-6 py-4text-xs text-gray-700  bg-gray-50 dark:bg-gray-700 dark:text-gray-400 font-bold">
+                            {{ adopt.adopt_date }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+
+    <div class="container pb-16 mt-12">
+        <div class="flex items-center justify-center mb-10">
+            <button class="bg-green-700 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">List of pets that you have added</button>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {% for pet in data %}
+                <div class="bg-white shadow rounded overflow-hidden group">
+                    <div class="relative">
+                        <img src="{{ pet.images.url }}" alt="pets" style="height: 315px; width: 474px;">
+                        <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center 
+                        justify-center gap-2 opacity-0 group-hover:opacity-100 transition">
+                            <a href="#"
+                                class="text-white text-lg w-9 h-8 rounded-full bg-primary flex items-center justify-center hover:bg-gray-800 transition"
+                                title="view product">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </a>
+                            <a href="#"
+                                class="text-white text-lg w-9 h-8 rounded-full bg-primary flex items-center justify-center hover:bg-gray-800 transition"
+                                title="add to wishlist">
+                                <i class="fa-solid fa-heart"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="pt-4 pb-3 px-4">
+                            <h4 class="uppercase font-medium text-xl mb-2 text-gray-800 hover:text-primary transition">{{pet.pet_title}}</h4>
+                        <div class="flex items-baseline mb-1 space-x-2">
+                            <p class="space-x-1  font-roboto">
+                                <span class="text-gray-800 text-xl font-semibold">Price:</span>
+                                <span class="text-primary text-xl font-semibold">${{pet.price}}</span>
+                            </p>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="flex gap-1 text-sm text-yellow-400">
+                                <span><i class="fa-solid fa-star"></i></span>
+                                <span><i class="fa-solid fa-star"></i></span>
+                                <span><i class="fa-solid fa-star"></i></span>
+                                <span><i class="fa-solid fa-star"></i></span>
+                                <span><i class="fa-solid fa-star"></i></span>
+                            </div>
+                        </div>
+                        <div class="flex items-baseline mb-1 space-x-2">
+                            <p class="space-x-1  font-roboto">
+                                <span class="text-gray-800 font-semibold">Description:</span>
+                                <span>{{pet.description |truncatechars:70}}</span>
+                                {% comment %} <span>{{pet.description |truncatewords:10}}</span> {% endcomment %}
+                            </p>
+                        </div>
+
+                    </div>
+                    <div class="flex items-center justify-between gap-3 m-2">
+                        <a href="{% url 'edit_pet' pet.id %}"
+                            class="bg-green-500 border border-green-500 text-white px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:bg-transparent hover:text-green-500 transition">
+                            <i class="fa-solid fa-bag-shopping"></i>Edit
+                        </a>
+                        <a href="{% url 'delete_pet' pet.id %}"
+                            class="bg-primary border border-primary text-white px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:bg-transparent hover:text-primary transition">
+                            <i class="fa-solid fa-heart"></i> Delete
+                        </a>
+                    </div>
+                </div>
+            {%endfor%}
+        </div>
+    </div>
+{% endblock %}

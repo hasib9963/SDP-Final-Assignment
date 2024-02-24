@@ -1,0 +1,64 @@
+{% extends 'base.html' %} {% load static %} {% block head_title %} Add Pet {% endblock %}{% block content %}
+<div class="contain py-16">
+    <div class="max-w-lg mx-auto shadow px-6 py-7 rounded overflow-hidden">
+        <h2 class="text-2xl uppercase font-medium mb-1 text-center">
+            {% if form.instance.pk %}
+                Edit Pet
+            {% else %}
+                Add Pet
+            {% endif %}
+        </h2>
+        <form action="#" method="post" enctype="multipart/form-data" autocomplete="off">
+            {% csrf_token %}
+            <div class="space-y-2">
+                <div>
+                    <label for="{{ form.pet_title.id_for_label }}" class="text-gray-600 mb-2 block">Pet Title</label>
+                    <input type="text" name="{{ form.pet_title.name }}" id="{{ form.pet_title.id_for_label }}"
+                        class="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
+                        placeholder="Enter pet title" value="{% if form.instance.pk and not form.errors %}{{ form.pet_title.value }}{% endif %}">
+                </div>
+                <div>
+                    <label for="{{ form.description.id_for_label }}" class="text-gray-600 mb-2 block">Description</label>
+                    <textarea name="{{ form.description.name }}" id="{{ form.description.id_for_label }}"
+                        class="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400">{% if form.instance.pk and not form.errors %}{{ form.description.value }}{% endif %}</textarea>
+                </div>
+                <div>
+                    <label for="{{ form.price.id_for_label }}" class="text-gray-600 mb-2 block">Price</label>
+                    <input type="number" name="{{ form.price.name }}" id="{{ form.price.id_for_label }}"
+                        class="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
+                        placeholder="Enter pet price" value="{% if form.instance.pk and not form.errors %}{{ form.price.value }}{% endif %}">
+                </div>
+                <div>
+                    <label for="{{ form.category.id_for_label }}" class="text-gray-600 mb-2 block">Category</label>
+                    <select name="{{ form.category.name }}" id="{{ form.category.id_for_label }}" class="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary">
+                        {% for category in form.fields.category.queryset %}
+                            <option value="{{ category.pk }}" {% if form.instance.category.pk == category.pk and not form.errors %}selected{% endif %}>{{ category }}</option>
+                        {% endfor %}
+                    </select>
+                </div>                
+                <div>
+                    <label for="{{ form.images.id_for_label }}" class="text-gray-600 mb-2 block">Images</label>
+                    <input type="file" name="{{ form.images.name }}" id="{{ form.images.id_for_label }}"
+                        class="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary">
+                </div>
+                <div>
+                    <label for="{{ form.quantity.id_for_label }}" class="text-gray-600 mb-2 block">Quantity</label>
+                    <input type="number" name="{{ form.quantity.name }}" id="{{ form.quantity.id_for_label }}"
+                        class="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
+                        placeholder="Enter pet quantity" value="{% if form.instance.pk and not form.errors %}{{ form.quantity.value }}{% else %}1{% endif %}">
+                </div>
+            </div>
+            <div class="mt-4">
+                <button type="submit"
+                    class="block w-full py-2 text-center text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition uppercase font-roboto font-medium">
+                    {% if form.instance.pk %}
+                        Update
+                    {% else %}
+                        Submit
+                    {% endif %}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

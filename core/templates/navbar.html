@@ -1,0 +1,68 @@
+{%load static%}
+ <!-- header -->
+ <header class="py-4 shadow-sm bg-white">
+    <div class="container flex items-center justify-between">
+        <a href="{% url 'home' %}">
+            <img src="{% static 'images/logo.svg' %}" alt="Logo" class="w-32">
+        </a>
+
+        <div class="w-full max-w-xl relative flex">
+            <span class="absolute left-4 top-3 text-lg text-gray-400">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </span>
+            <input type="text" name="search" id="search"
+                class="w-full border border-primary border-r-0 pl-12 py-3 pr-3 rounded-l-md focus:outline-none hidden md:flex"
+                placeholder="search">
+            <button
+                class="bg-primary border border-primary text-white px-8 rounded-r-md hover:bg-transparent hover:text-primary transition hidden md:flex">Search</button>
+        </div>
+        <div class="flex items-center space-x-4">
+             <div class="text-2xl"> <i class="fa-regular fa-heart"></i></div>
+             {% if request.user.is_authenticated %}
+                <div class="text-lg leading-3 text-black-700 capitalize">Welcome, {{ request.user.first_name }} (balance : {{request.user.account.balance}})</div>
+            {% endif %}
+        </div>
+    </div>
+</header>
+<!-- ./header -->
+
+<!-- navbar -->
+<nav class="bg-gray-800">
+    <div class="container flex">
+        <div class="px-8 py-4 bg-primary md:flex items-center cursor-pointer relative group hidden">
+            <span class="text-white">
+                <i class="fa-solid fa-bars"></i>
+            </span>
+            <span class="capitalize ml-2 text-white ">All Categories</span>
+                <div class="absolute w-full left-0 top-full bg-white shadow-md py-3 divide-y divide-gray-300 divide-dashed opacity-0 group-hover:opacity-100 transition duration-300 invisible group-hover:visible">
+                    {% for cat in category %}
+                        <a href="{% url 'category_wise_pet' cat.slug %}" class="flex items-center px-6 py-3 hover:bg-gray-100 transition">
+                            <span class="ml-6 text-gray-600 text-sm">{{cat.category_name}}</span>
+                        </a>
+                    {%endfor%}    
+                </div>
+            </div>
+
+        <div class="flex items-center justify-between flex-grow md:pl-12 py-5 ">
+            <div class="flex items-center space-x-6 capitalize">
+                <a href="{% url 'home' %}" class="text-gray-200 hover:text-white transition">Home</a>
+                {% if request.user.is_authenticated %}
+                    <a href="{% url 'deposit_money' %}" class="text-gray-200 hover:text-white transition">Deposit</a>
+                    <a href="{% url 'add_pet' %}" class="text-gray-200 hover:text-white transition">Add Pet</a>
+                    <a href="{% url 'report' %}" class="text-gray-200 hover:text-white transition">Report</a>
+                {%endif%}
+                <a href="{% url 'about' %}" class="text-gray-200 hover:text-white transition">About Us</a>
+            </div>
+            <div class="flex items-center space-x-6 capitalize">
+                {% if request.user.is_authenticated %}
+                    <a href="{% url 'profile' %}" class="text-gray-200 hover:text-white transition">Profile</a>
+                    <a href="{% url 'logout' %}" class="text-gray-200 hover:text-white transition">Logout</a>
+                {% else %}
+                    <a href="{% url 'register' %}" class="text-gray-200 hover:text-white transition">Register</a>
+                    <a href="{% url 'login' %}" class="text-gray-200 hover:text-white transition">Login</a>
+                {%endif%}
+            </div>
+        </div>
+    </div>
+</nav>
+<!-- ./navbar -->

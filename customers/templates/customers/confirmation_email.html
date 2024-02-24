@@ -1,0 +1,10 @@
+
+    <h3>Dear {{request.user.first_name}} {{ request.user.last_name }},</h3>
+    <p>Thank you for registering on our website. To activate your account, please click the following link:</p>
+    
+    <a href="{{ confirm_link }}" target="_blank">{{ confirm_link }}</a>
+    
+    <p>If you did not register on our website, you can ignore this email.</p>
+    
+    <h3>Best regards, Raft Cart Team</h3>
+
