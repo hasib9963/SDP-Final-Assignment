@@ -36,8 +36,8 @@ class UserRegistrationView(FormView):
             token = default_token_generator.make_token(user)
             # uid = urlsafe_base64_encode(force_bytes(user.pk)).decode('utf-8')
             uid = urlsafe_base64_encode(force_bytes(user.pk))
-            confirm_link = f"http://127.0.0.1:8000/customer/activate/{uid}/{token}/"
-            # confirm_link = f"http://raft-cart.onrender.com///customer/activate/{uid}/{token}/"
+            # confirm_link = f"http://127.0.0.1:8000/customer/activate/{uid}/{token}/"
+            confirm_link = f"http://raft-cart.onrender.com///customer/activate/{uid}/{token}/"
             email_subject = "Account Activation"
             email_body = render_to_string('customers/confirmation_email.html', {'user': user, 'confirm_link': confirm_link})
 
